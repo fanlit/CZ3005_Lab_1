@@ -1,7 +1,17 @@
 from queue import PriorityQueue
+import math
 
-#uniform cost search using priority queue
-def ucs(start, end, energyBudget, g, dist, cost):
+def heuristic(v, w, coord):
+    xy1 = coord[str(v)] 
+    xy2 = coord[str(w)]
+
+    dx = abs(xy1[0]-xy2[0])
+    dy = abs(xy1[1]-xy2[1])
+
+    return math.sqrt(dx*dx + dy*dy) #return straight line cost of the two vertex using pythagorean
+
+#A star search; f(n) = g(n) + h(n)
+def aStar(start, end, energyBudget, g, dist, cost, coord):
     visited = [0] * (len(g)+1) 
     parent = [-1] * (len(g)+1)
     pathCost = [0] * (len(g)+1)
@@ -26,11 +36,14 @@ def ucs(start, end, energyBudget, g, dist, cost):
 
             if(not visited[w]):
                 c = cost[str(v) + "," + str(w)] #energy cost from current vertex to adjacent vertex
-                curCost = pathCost[v]+c #total energy cost from start to adjacent vertex
+                gn = pathCost[v]+c #total energy cost from start to adjacent vertex
+                
+                if(gn <= energyBudget):
+                    hn = heuristic(w, end, coord) #future cost from w to end
+                    fn = gn + hn
 
-                if(curCost <= energyBudget):
-                    q.put((curCost, w))
-                    pathCost[w] = curCost
+                    q.put((fn, w))
+                    pathCost[w] = gn
                     parent[w] = v
 
     print(f"Visited: {count}")                

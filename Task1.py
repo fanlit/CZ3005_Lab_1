@@ -64,11 +64,11 @@ def printpath(path):
         j = i
     print(path[j+1])
 
-
-Graph = readGraph()
-source = 1
-destination = 50
-path, cost = dijkstra(Graph, source, destination)
-todespath = constructpath(path, 50)
-printpath(todespath)
-print("Path Distance = " + str(cost))
+def run():
+    Graph = readGraph()
+    source = 1
+    destination = 50
+    path, cost = dijkstra(Graph, source, destination)
+    todespath = constructpath(path, 50)
+    printpath(todespath)
+    print("Path Distance = " + str(cost))
