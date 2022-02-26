@@ -71,4 +71,5 @@ destination = 50
 path, cost = dijkstra(Graph, source, destination)
 todespath = constructpath(path, 50)
 printpath(todespath)
+print("Visited: " + str(len(todespath)))
 print("Path Distance = " + str(cost))
