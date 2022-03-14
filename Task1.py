@@ -10,6 +10,7 @@ def readGraph():
 
 def dijkstra(graph, source, des):
     pqheap = []
+    numvisited = 0
     parent = [-1 for i in range(len(graph))]
     for child_node in graph[str(source)]:
         parent[child_node[1]] = source
@@ -23,6 +24,7 @@ def dijkstra(graph, source, des):
 
     while len(pqheap) != 0:
         min_cost_node = heapq.heappop(pqheap)                  # returns the vertex with the lowest cost
+        numvisited += 1
         cur_node = min_cost_node[1]                            # takes the cost to the node from source as d[u]
         visited[cur_node] = 1                                  # mark as selected/visited. - prevents inf loop if cycle
         if visited[des] == 1:
@@ -44,7 +46,7 @@ def dijkstra(graph, source, des):
                     graph[str(source)].append([cur_cost, next_node[1]])
                     heapq.heappush(pqheap, [cur_cost, next_node[1]])
                 found = False
-    return parent, cur_cost
+    return parent, cur_cost, numvisited
 
 
 def constructpath(path, des):
@@ -68,8 +70,8 @@ def run():
     Graph = readGraph()
     source = 1
     destination = 50
-    path, cost = dijkstra(Graph, source, destination)
+    path, cost, numvisited = dijkstra(Graph, source, destination)
     todespath = constructpath(path, 50)
     printpath(todespath)
-    print("Visited: " + str(len(todespath)))
+    print("Visited: " + str(numvisited))
     print("Path Distance = " + str(cost))
